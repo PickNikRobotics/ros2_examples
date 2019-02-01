@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>example_python</name>
+  <version>0.0.1</version>
+  <description>An example of a pure python package using ament_python. Builds much faster than ament_cmake packages</description>
+
+  <maintainer email="stephenbrawner@picknik.ai">Stephen Brawner</maintainer>
+  <author email="stephenbrawner@picknik.ai">Stephen Brawner</author>
+
+  <license>BSD</license>
+
+  <url type="website">https://github.com/PickNikRobotics/example_python</url>
+  <url type="bugtracker">https://github.com/PickNikRobotics/example_python/issues</url>
+  <url type="repository">https://github.com/PickNikRobotics/example_python/</url>
+
+  <depend>rclcpp</depend>
+  <depend>eigen</depend>
+  <depend>rviz_visual_tools</depend>
+  <depend version_eq="3.9">clang-format</depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

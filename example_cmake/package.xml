@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>example_cmake</name>
+  <version>0.0.1</version>
+  <description>An example ROS2 ament_cmake package with both c++ and Python files</description>
+
+  <maintainer email="stephenbrawner@picknik.ai">Stephen Brawner</maintainer>
+  <author email="stephenbrawner@picknik.ai">Stephen Brawner</author>
+
+  <license>BSD</license>
+
+  <url type="website">https://github.com/PickNikRobotics/example_cmake</url>
+  <url type="bugtracker">https://github.com/PickNikRobotics/example_cmake/issues</url>
+  <url type="repository">https://github.com/PickNikRobotics/example_cmake/</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>s
+
+  <depend>rclcpp</depend>
+  <depend>eigen</depend>
+  <depend>rviz_visual_tools</depend>
+  <depend version_eq="3.9">clang-format</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
