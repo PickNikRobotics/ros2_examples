@@ -15,7 +15,6 @@
 
   <depend>rclcpp</depend>
   <depend>eigen</depend>
-  <depend>rviz_visual_tools</depend>
   <depend version_eq="3.9">clang-format</depend>
 
   <export>
