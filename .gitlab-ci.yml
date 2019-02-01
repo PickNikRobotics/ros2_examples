@@ -1,7 +1,9 @@
 image: ros:crystal-ros-core-bionic
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 before_script:
- - git clone git@gitlab.com:tomahawkrobotics/picknik/ros2_gitlab_ci.git
  - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
 
 colcon build:
