@@ -1,4 +1,4 @@
-image: osrf:ros2
+image: ros:crystal-ros-core-bionic
 
 before_script:
  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
