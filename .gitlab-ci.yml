@@ -1,7 +1,6 @@
 image: ros:crystal-ros-core-bionic
 
 before_script:
- - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
  - git clone https://gitlab.com/tomahawkrobotics/picknik/ros2_gitlab_ci.git
  - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
 
