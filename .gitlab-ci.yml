@@ -1,0 +1,15 @@
+image: osrf:ros2
+
+before_script:
+ - git clone https://gitlab.com/tomahawkrobotics/picknik/ros2_gitlab_ci.git
+ - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
+
+colcon build:
+  stage: build
+  script:
+    - colcon build
+
+colcon test:
+  stage: test
+  script:
+    - colcon test
