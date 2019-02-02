@@ -6,6 +6,4 @@ variables:
 colcon:
   stage: build
   script:
-     - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
-     - colcon build --event-handlers console_direct+
-     - colcon test --event-handlers console_direct+
+    - ./.gitlab-ci.sh
