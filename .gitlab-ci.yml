@@ -4,7 +4,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 colcon:
-  stage: build_test
+  stage: build
   script:
      - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
      - colcon build --event-handlers console_direct+
