@@ -6,4 +6,4 @@ variables:
 colcon:
   stage: build
   script:
-    - ./.gitlab-ci.sh
+    - bash .gitlab-ci.sh
