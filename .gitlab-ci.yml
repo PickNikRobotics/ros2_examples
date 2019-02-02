@@ -7,15 +7,27 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-before_script:
- - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
-
 colcon build:
   stage: build
   script:
-    - colcon build --event-handlers console_direct+
+     - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
+     - colcon build --event-handlers console_direct+
+     - pwd
+     - ls
+  artifacts:
+    paths:
+      - build/
+      - install/
 
 colcon test:
   stage: test
   script:
+    - pwd
+    - ls
     - colcon test --event-handlers console_direct+
+  dependencies:
+    - colcon build
+  artifacts:
+    paths:
+      - build/
+      - install/
