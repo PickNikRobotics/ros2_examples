@@ -6,4 +6,4 @@ variables:
 colcon:
   stage: build
   script:
-    - bash .gitlab-ci.sh
+    - bash ros2_gitlab_ci/colcon_build_test.sh
