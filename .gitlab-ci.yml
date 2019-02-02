@@ -1,33 +1,11 @@
 image: ros:crystal-ros-core-bionic
 
-stages:
-  - build
-  - test
-
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-colcon build:
-  stage: build
+colcon:
+  stage: build_test
   script:
      - source ros2_gitlab_ci/gitlab_ros2.bash >/dev/null
      - colcon build --event-handlers console_direct+
-     - pwd
-     - ls
-  artifacts:
-    paths:
-      - build/
-      - install/
-
-colcon test:
-  stage: test
-  script:
-    - pwd
-    - ls
-    - colcon test --event-handlers console_direct+
-  dependencies:
-    - colcon build
-  artifacts:
-    paths:
-      - build/
-      - install/
+     - colcon test --event-handlers console_direct+
