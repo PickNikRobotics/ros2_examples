@@ -34,24 +34,7 @@
 # This file does not pass flake8 due to the raw string literals below.
 # flake8: noqa
 
-import subprocess
-import sys
 import unittest
-
-from python_qt_binding.QtWidgets import QApplication
-from qt_dotgraph.dot_to_qt import DotToQtGenerator, get_unquoted
-
-
-def check_x_server():
-    p = subprocess.Popen(sys.executable, stdin=subprocess.PIPE)
-    p.stdin.write(b'from python_qt_binding.QtWidgets import QApplication\n')
-    p.stdin.write(b'app = QApplication([])\n')
-    p.stdin.close()
-    p.communicate()
-
-    print(p.returncode)
-
-    return p.returncode == 0
 
 
 class ExamplePythonTest(unittest.TestCase):
