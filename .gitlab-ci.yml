@@ -1,5 +1,9 @@
 image: ros:crystal-ros-core-bionic
 
+stages:
+  - build
+  - test
+
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
