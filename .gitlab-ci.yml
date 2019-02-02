@@ -9,9 +9,9 @@ before_script:
 colcon build:
   stage: build
   script:
-    - colcon build
+    - colcon build --event-handlers console_direct+
 
 colcon test:
   stage: test
   script:
-    - colcon test
+    - colcon test --event-handlers console_direct+

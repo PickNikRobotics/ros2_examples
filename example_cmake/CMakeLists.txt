@@ -90,18 +90,18 @@ install(
 )
 
 # Mark launch files for installation
-install(
-  DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}
-)
+# install(
+#  DIRECTORY launch
+#  DESTINATION share/${PROJECT_NAME}
+#)
 
 # Mark config files for installation
-install(
-  DIRECTORY
-    config/
-  DESTINATION
-    config/${PROJECT_NAME}
-)
+# install(
+#  DIRECTORY
+#    config/
+#  DESTINATION
+#    config/${PROJECT_NAME}
+#)
 
 #############
 ## Testing ##
