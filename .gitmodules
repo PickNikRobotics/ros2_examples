@@ -1,3 +1,0 @@
-[submodule "ros2_gitlab_ci"]
-	path = ros2_gitlab_ci
-	url = ../ros2_gitlab_ci.git
