@@ -28,7 +28,7 @@ These instructions assume you are running on Ubuntu 18.04:
 1. Re-use or create a colcon workspace:
 
 
-        export COLCON_WS=~/ros2_ws/
+        export COLCON_WS=~/ws_ros2/
         mkdir -p $COLCON_WS
         cd $COLCON_WS
 
