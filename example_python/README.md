@@ -63,34 +63,34 @@ To make sure you have the latest repos:
 
 ## Run
 
-Run EXECUTABLE_NAME
+Run rclpy_example_node
 ```
-ros2 run example_python EXECUTABLE_NAME # or
-EXECUTABLE_NAME
+ros2 run example_python rclpy_example_node # or
+rclpy_example_node
 ```
 
 ### Run with Debugging
 
 # TODO(brawner) check this actually works
-Run EXECUTABLE_NAME with GDB
+Run rclpy_example_node with GDB
 ```
-ros2 run --prefix 'gdb -ex run --args' example_python EXECUTABLE_NAME
-```
-
-Run EXECUTABLE_NAME with Callgrind
-```
-ros2 run --prefix 'valgrind --tool=callgrind' example_python EXECUTABLE_NAME
+ros2 run --prefix 'gdb -ex run --args' example_python rclpy_example_node
 ```
 
-Run EXECUTABLE_NAME with Valgrind
+Run rclpy_example_node with Callgrind
 ```
-ros2 run --prefix 'valgrind --tool=callgrind' example_python EXECUTABLE_NAME
+ros2 run --prefix 'valgrind --tool=callgrind' example_python rclpy_example_node
+```
+
+Run rclpy_example_node with Valgrind
+```
+ros2 run --prefix 'valgrind --tool=callgrind' example_python rclpy_example_node
 ```
 
 Run rclpy_example_node with pdb
 ```
 cd $COLCON_WS/src/example_python/example_python
-python3 -m pdb EXECUTABLE_NAME.py
+python3 -m pdb rclpy_example_node.py
 ```
 
 ## Run Docker
