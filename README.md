@@ -81,28 +81,6 @@ ROS Kinetic includes Gazebo7 by default
     # Dependencies
     sudo apt-get install ros-kinetic-desktop-full protobuf-compiler libeigen3-dev libopencv-dev python-rosinstall python-wstool python-rosinstall-generator python-catkin-tools -y
 
-Create a ROS1 workspace:
-
-    export ROS1_WS=$HOME/ws_tom1
-    mkdir -p $ROS1_WS/src
-    wstool init $ROS1_WS/src
-    cd $ROS1_WS
-
-Download and install MavROS
-
-    rosinstall_generator --upstream mavros | tee /tmp/mavros.rosinstall
-    # Get latest released mavlink package
-    rosinstall_generator mavlink | tee -a /tmp/mavros.rosinstall
-    # Setup workspace & install deps
-    wstool merge -t src /tmp/mavros.rosinstall
-    wstool update -t src
-    # Install MavROS dependencies
-    rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
-
-Build MavROS!
-
-    catkin build
-
 1. Install geographiclib datasets:
 
 PX4 requires that we install geographiclib datasets:
@@ -114,15 +92,52 @@ PX4 requires that we install geographiclib datasets:
     # Otherwise source the downloaded script.
     sudo bash -c "$install_geo"
 
-
 1. Install the PX4 Firmware repository
-
-
 
 We can now clone PX4/Firmware:
 
     cd ~/src
     git clone https://github.com/PX4/Firmware.git
+
+We set the FASTRTPSGEN_DIR environment variable:
+
+    export FASTRTPSGEN_DIR=/usr/local/bin/
+
+1. Create your ROS1 workspace with MavROS and px4_ros_com
+
+Create your workspace:
+
+    export ROS1_WS=$HOME/ws_tom1
+    mkdir -p $ROS1_WS/src
+    wstool init $ROS1_WS/src
+    cd $ROS1_WS
+
+Download MavROS
+
+    rosinstall_generator --upstream mavros | tee /tmp/mavros.rosinstall
+    # Get latest released mavlink package
+    rosinstall_generator mavlink | tee -a /tmp/mavros.rosinstall
+    # Setup workspace & install deps
+    wstool merge -t src /tmp/mavros.rosinstall
+    wstool update -t src
+
+Download `px4_ros_comm`
+
+    git clone https://github.com/PX4/px4_ros_com.git ./src/px4_ros_com -b ros1
+    git clone https://github.com/PX4/px4_msgs.git ./src/px4_msgs -b ros1
+
+    # Install MavROS dependencies
+    rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
+
+<!-- Build MavROS! -->
+
+<!-- catkin build -->
+
+<!-- Source your ROS1 environment (*Note:* You will need to do this in every terminal) -->
+
+<!-- . $ROS1_WS/devel/setup.bash -->
+
+
 
 1. Re-use or create a colcon workspace as an [overlay](https://index.ros.org/doc/ros2/Tutorials/Colcon-Tutorial/#create-an-overlay) of your `~/ros2_ws/` workspace:
 
