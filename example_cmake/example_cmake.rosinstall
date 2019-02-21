@@ -1,9 +1,9 @@
-repositories:
-  px4_ros_com:
-    type: git
-    url: git@github.com:PX4/px4_ros_com.git
+# Used with wstool
+- git:
+    local-name: px4_ros_com
+    uri: git@github.com:PX4/px4_ros_com.git
     version: master
-  px4_msgs:
-    type: git
-    url: git@github.com:PX4/px4_msgs.git
+- git:
+    local-name: px4_msgs
+    uri: git@github.com:PX4/px4_msgs.git
     version: master
