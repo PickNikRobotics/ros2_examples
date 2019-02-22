@@ -15,19 +15,19 @@ TODO(brawner): fix Travis badge:
 
 > Note: this package has not been released yet
 
-    sudo apt-get install ros-crystal-example-cmake
+    sudo apt-get install ros-bouncy-example-cmake
 
 and:
 
-    sudo apt-get install ros-crystal-example-python
+    sudo apt-get install ros-bouncy-example-python
 
 ### Build from Source
 
 These instructions assume you are running on Ubuntu 16.04:
 
-1. [Install ROS1 kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
+1. [Install ROS1 melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)
 
-1. [Install ROS2 crystal](https://index.ros.org/doc/ros2/Installation/Linux-Development-Setup/) from source.
+1. [Install ROS2 bouncy](https://index.ros.org/doc/ros2/Installation/Linux-Development-Setup/) from source.
 
 1. [Install ROS2 Build Tools](https://index.ros.org/doc/ros2/Installation/Linux-Development-Setup/#install-development-tools-and-ros-tools)
 
@@ -61,14 +61,19 @@ You can verify that FastRTPS was installed correctly, run this in a new terminal
 
 If you see the `fastrtpsgen` usage information, you are on the right track!
 
-1. Install MavLink/MAVROS and Gazebo:
+1. Install Dependencies:
 
-We first remove `nodemanager` and install recommended dependencies:
+We first remove `nodemanager`
 
     sudo apt-get remove modemmanager -y
+
+Install recommended dependencies
+
     sudo apt-get install git zip qtcreator cmake build-essential genromfs ninja-build exiftool astyle ant openjdk-8-jdk openjdk-8-jre -y
+
     # make sure xxd is installed, dedicated xxd package since Ubuntu 18.04 but was squashed into vim-common before
     which xxd || sudo apt install xxd -y || sudo apt-get install vim-common --no-install-recommends -y
+
     # Required python packages
     sudo apt-get install python-argparse python-empy python-toml python-numpy python-dev python-pip -y
     sudo -H pip install --upgrade pip
@@ -76,10 +81,10 @@ We first remove `nodemanager` and install recommended dependencies:
     # optional python tools
     sudo -H pip install pyulog
 
-ROS Kinetic includes Gazebo7 by default
+ROS Kinetic includes Gazebo7 by default (*Note:* These are taken from the PX4 documentation and may or may not be neccessary)
 
-    # Dependencies
-    sudo apt-get install ros-kinetic-desktop-full protobuf-compiler libeigen3-dev libopencv-dev python-rosinstall python-wstool python-rosinstall-generator python-catkin-tools -y
+    # ROS Kinetic Gazebo7 Dependencies:
+    sudo apt-get install ros-melodic-desktop-full protobuf-compiler libeigen3-dev libopencv-dev python-rosinstall python-wstool python-rosinstall-generator python-catkin-tools -y
 
 1. Install geographiclib datasets:
 
@@ -92,7 +97,7 @@ PX4 requires that we install geographiclib datasets:
     # Otherwise source the downloaded script.
     sudo bash -c "$install_geo"
 
-1. Install the PX4 Firmware repository
+1. Clone the PX4 Firmware repository
 
 We can now clone PX4/Firmware:
 
@@ -127,35 +132,25 @@ Download `px4_ros_comm`
     git clone https://github.com/PX4/px4_msgs.git ./src/px4_msgs -b ros1
 
     # Install MavROS dependencies
-    rosdep install --from-paths src --ignore-src --rosdistro kinetic -y
+    rosdep install --from-paths src --ignore-src --rosdistro melodic -y
 
-<!-- Build MavROS! -->
-
-<!-- catkin build -->
-
-<!-- Source your ROS1 environment (*Note:* You will need to do this in every terminal) -->
-
-<!-- . $ROS1_WS/devel/setup.bash -->
-
-
-
-1. Re-use or create a colcon workspace as an [overlay](https://index.ros.org/doc/ros2/Tutorials/Colcon-Tutorial/#create-an-overlay) of your `~/ros2_ws/` workspace:
+1. Create a ROS2 colcon workspace [overlay](https://index.ros.org/doc/ros2/Tutorials/Colcon-Tutorial/#create-an-overlay) of your `~/ros2_ws/` workspace:
 
 First make sure that you have correctly sourced your ROS1 environment and your `~/ros2_ws/` workspace:
 
 Source your ROS1 environment:
 
-        source /opt/ros/kinetic/setup.bash
+        source /opt/ros/melodic/setup.bash
 
-Source your new ROS2 install: (*Note:* We use `local_setup.bash` rather than `setup.bash` so that our environment changes stack on top of each other rather than overwriting the previous changes)
+Source your new ROS2 install: (*Note:* We use `local_setup.bash` rather than `setup.bash` so that our environment changes stack on top of each other rather than overwriting eachother)
 
         source ~/ros2_ws/local_setup.bash
 
 Then create your new overlay:
 
-        export COLCON2_WS=~/ws_tom2/
-        mkdir -p $COLCON_WS
-        cd $COLCON_WS/src
+        export ROS2_WS=~/ws_tom2/
+        mkdir -p $ROS2_WS
+        cd $ROS2_WS/src
 
 1. Download the required repositories and install any dependencies:
 
@@ -163,33 +158,116 @@ Then create your new overlay:
         wstool init .
         wstool merge ros2_examples/example_cmake/example_cmake.rosinstall
         wstool update
-        # We cannot run rosdep install since ROS2 Crystal has not been released to Debian for Ubuntu16
-        # rosdep install --from-paths . --ignore-src --rosdistro crystal
+        # We cannot run rosdep install since ROS2 Bouncy has not been released to Debian for Ubuntu16
+        # rosdep install --from-paths . --ignore-src --rosdistro bouncy
 
-1. Configure and build the workspace:
+1. Build the ROS1/2 Project
 
-        cd $COLCON_WS
-        colcon build --symlink-install
+Open 2 Terminals (`Terminal A` and `Terminal B`) and set these environment variables in both:
 
-1. Source the workspace.
+        export FASTRTPSGEN_DIR=/usr/local/bin/
+        export ROS1_DISTRO="melodic"
+        export ROS2_DISTRO="bouncy"
+        export ROS1_PATH="/opt/ros/$ROS1_DISTRO/setup.bash"
+        export ROS2_PATH=$HOME/ws_ros2/install/local_setup.bash
+        export ROS1_WS=$HOME/ws_tom1/
+        export ROS2_WS=$HOME/ws_tom2/
 
-        source install/local_setup.bash
+Next, `Terminal A` build the ROS2 repos except `ros1_bridge`
 
-## Developers: Quick update code repositories
+        source $ROS1_PATH && \
+        source $ROS2_PATH && \
+        cd $ROS2_WS && \
+        colcon build --symlink-install --packages-skip ros1_bridge --event-handlers console_direct+
 
-To make sure you have the latest repos:
+Also in `Terminal A` build the ROS1 repos with colcon
 
-    cd $COLCON_WS/src/example_cmake
-    git checkout master
-    git pull origin master
-    cd ..
-    wstool merge example_cmake/example_cmake.rosinstall
-    wstool update
-    rosdep install --from-paths . --ignore-src --rosdistro crystal
+        cd $ROS1_WS && \
+        colcon build --cmake-args --symlink-install --event-handlers console_direct+
+
+In `Terminal B`
+
+        source $ROS1_PATH && \
+        source $ROS1_WS/install/local_setup.bash && \
+        source $ROS2_PATH && \
+        source $ROS2_WS/install/local_setup.bash
+
+        cd $ROS2_WS
+        colcon build --symlink-install --packages-select ros1_bridge --cmake-force-configure --event-handlers console_direct+
+
+You can now close both of those terminals
+
+1. Sourcing your environment
+
+It may be helpful to use these bash functions to setup your environment
+
+    function setup_env
+    {
+        export FASTRTPSGEN_DIR=/usr/local/bin/
+        export ROS1_DISTRO="melodic"
+        export ROS2_DISTRO="bouncy"
+        export ROS1_PATH="/opt/ros/$ROS1_DISTRO/setup.bash"
+        export ROS2_PATH=$HOME/ws_ros2/install/local_setup.bash
+        export ROS1_WS=$HOME/ws_tom1/
+        export ROS2_WS=$HOME/ws_tom2/
+        export ROS_MASTER_URI=http://localhost:11311
+    }
+
+    function setup_ros1_env
+    {
+        setup_env
+        source $ROS1_PATH && \
+        source $ROS1_WS/install/local_setup.bash
+    }
+
+    function setup_ros2_env
+    {
+        setup_ros1_env
+        source $ROS2_PATH && \
+        source $ROS2_WS/install/local_setup.bash
+    }
 
 ## Run
 
-Run rclcpp_example_node
+Open 5 terminals:
+
+Run the simulator in `Terminal A`
+
+    setup_env
+    cd $HOME/src/Firmware
+    make px4_sitl_rtps gazebo
+
+In the same terminal, start the micrortps_client
+
+    micrortps_client start -t UDP
+
+In `Terminal B` start the `micrortps_agent`
+
+    setup_ros2_env
+    micrortps_agent -t UDP
+
+In `Terminal C` start the ROS Bridge
+
+    setup_ros2_env
+    ros2 run ros1_bridge dynamic_bridge
+
+In `Terminal D` start the ROS1 listener
+
+    setup_ros1_env
+    roslaunch px4_ros_com sensor_combined_listener.launch
+
+In `Terminal E` launch the ros2 `sensor_combined_listener`
+
+    setup_ros2_env
+    sensor_combined_listener
+
+Or launch the `debug_vect_advertiser`
+
+    setup_ros2_env
+    debug_vect_advertiser
+
+
+## Run rclcpp_example_node
 ```
 ros2 run example_cmake rclcpp_example_node # or
 rclcpp_example_node
@@ -230,17 +308,29 @@ You must have a private rsa key `~/.ssh/id_rsa` that is not password protected a
 1. Build the docker image
 
         cd $COLCON_WS/src/example_cmake/.docker
-        cp ~/.ssh/id_rsa id_rsa && docker build -t example_cmake:crystal-source .; rm id_rsa
+        cp ~/.ssh/id_rsa id_rsa && docker build -t example_cmake:bouncy-source .; rm id_rsa
 
 1. Run the docker image
 
     * Without the gui
 
-            docker run -it --rm example_cmake:crystal-source /bin/bash
+            docker run -it --rm example_cmake:bouncy-source /bin/bash
 
     * With the gui (tested with Ubuntu native and a Ubuntu VM)
 
-            . ./gui-docker -it --rm example_cmake:crystal-source /bin/bash
+            . ./gui-docker -it --rm example_cmake:bouncy-source /bin/bash
+
+## Developers: Quick update code repositories
+
+To make sure you have the latest repos:
+
+    cd $ROS2_WS/src/example_cmake
+    git checkout master
+    git pull origin master
+    cd ..
+    wstool merge example_cmake/example_cmake.rosinstall
+    wstool update
+    rosdep install --from-paths . --ignore-src --rosdistro bouncy
 
 
 ## Testing and Linting

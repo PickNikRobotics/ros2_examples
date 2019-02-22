@@ -7,3 +7,9 @@
     local-name: px4_msgs
     uri: git@github.com:PX4/px4_msgs.git
     version: master
+- git:
+    local-name: ros1_bridge
+    uri: git@github.com:ros2/ros1_bridge.git
+    version: bouncy
+
+
